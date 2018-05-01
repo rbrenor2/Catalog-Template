@@ -212,14 +212,19 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
       super.initState();
       
       controller = new AnimationController(
-        duration: const Duration(milliseconds: 2000),
+        duration: const Duration(milliseconds: 1000),
         vsync: this
+      );
+
+      final CurvedAnimation curve = new CurvedAnimation(
+          parent: controller,
+          curve: Curves.fastOutSlowIn,
       );
 
       animation = new Tween(
         begin: 250.0,
         end: 80.0
-      ). animate(controller)
+      ). animate(curve)
       ..addListener((){
         setState(() {
                   
