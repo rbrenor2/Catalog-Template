@@ -47,7 +47,6 @@ class BrandAppBar extends StatelessWidget {
         .of(context)
         .padding
         .top;
-    print(statusBarHeight);
 
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
@@ -190,14 +189,53 @@ class Category {
   const Category({this.name, this.products, this.image});
 }
 
-
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final Category tappedCategory;
 
   DetailPage(this.tappedCategory);
 
+  _DetailPageState createState() => new _DetailPageState(tappedCategory);
+
+}
+
+class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin {
+  final Category tappedCategory;
+
+  _DetailPageState(this.tappedCategory);
+
+  Animation<double> animation;
+  AnimationController controller;
+
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      
+      controller = new AnimationController(
+        duration: const Duration(milliseconds: 2000),
+        vsync: this
+      );
+
+      animation = new Tween(
+        begin: 250.0,
+        end: 80.0
+      ). animate(controller)
+      ..addListener((){
+        setState(() {
+                  
+        });
+      });
+
+      controller.forward();
+    }
+
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery
+        .of(context)
+        .padding
+        .top;
+
     return new Scaffold(
       body: new Container(
         constraints: new BoxConstraints.expand(),
@@ -207,7 +245,7 @@ class DetailPage extends StatelessWidget {
             new Stack(
               children: <Widget>[
                 new Container(
-                  height: 250.0,
+                  height: animation.value + statusBarHeight,
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
                       image: new AssetImage(tappedCategory.image),
